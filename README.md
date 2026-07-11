@@ -118,13 +118,57 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
+### Step 3: User Login — 🔴 RED (tests written, not yet implemented)
+
+**Endpoint:** `POST /api/auth/login`
+
+**Test file:** `backend/tests/auth/login.test.js`
+
+| Test Case                              | Expected Status | Description                                      |
+| -------------------------------------- | --------------- | ------------------------------------------------ |
+| Login with valid credentials           | 200             | Returns JWT token and user object                |
+| JWT contains user id and email         | —               | Token decodes with correct payload               |
+| Missing email                          | 400             | Validation error for email                       |
+| Missing password                       | 400             | Validation error for password                    |
+| Invalid email format                   | 400             | Validation error for email                       |
+| User does not exist                    | 401             | Invalid credentials error                        |
+| Incorrect password                     | 401             | Invalid credentials error                        |
+
+**Request body:**
+
+```json
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+```
+
+**Expected success response (200):**
+
+```json
+{
+  "message": "Login successful",
+  "token": "<jwt-token>",
+  "user": {
+    "id": "<mongodb-id>",
+    "name": "John Doe",
+    "email": "john@example.com",
+    "role": "user"
+  }
+}
+```
+
+**Status:** Tests written — awaiting implementation (Green phase).
+
+---
+
 ## API Endpoints (Planned)
 
 | Method | Endpoint                    | Auth     | Status        |
 | ------ | --------------------------- | -------- | ------------- |
 | GET    | `/api/health`               | Public   | ✅ Done       |
 | POST   | `/api/auth/register`        | Public   | ✅ Done       |
-| POST   | `/api/auth/login`           | Public   | ⬜ Pending    |
+| POST   | `/api/auth/login`           | Public   | 🔴 Test only  |
 | POST   | `/api/vehicles`             | Protected| ⬜ Pending    |
 | GET    | `/api/vehicles`             | Protected| ⬜ Pending    |
 | GET    | `/api/vehicles/search`      | Protected| ⬜ Pending    |
