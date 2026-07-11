@@ -347,15 +347,25 @@ Authorization: Bearer <jwt-token>
 - ✅ Authorization tests (3/3 passing)
 - ✅ Error handling tests (2/2 passing)
 
-**Implementation Details:**
+**Implementation Details (after refactor):**
 
-| Component  | File                               | Pattern                                  |
-| ---------- | ---------------------------------- | ---------------------------------------- |
-| Controller | `controllers/vehicleController.js` | Inline validation, direct DB operations  |
-| Middleware | `middleware/authMiddleware.js`     | JWT authentication (no role restriction) |
-| Routes     | `routes/vehicleRoutes.js`          | Protected with auth check                |
-| Format     | `utils/formatVehicle.js`           | Response formatting utility              |
-| Model      | `models/Vehicle.js`                | MongoDB schema                           |
+| Layer      | File                               | Responsibility                        |
+| ---------- | ---------------------------------- | ------------------------------------- |
+| Controller | `controllers/vehicleController.js` | Request/response orchestration        |
+| Service    | `services/vehicleService.js`       | Database operations (getAllVehicles)  |
+| Validator  | `validators/vehicleValidator.js`   | Pagination parameter validation       |
+| Route      | `routes/vehicleRoutes.js`          | HTTP routing + auth middleware        |
+| Middleware | `middleware/authMiddleware.js`     | JWT authentication (no role required) |
+| Format     | `utils/formatVehicle.js`           | Response formatting utility           |
+| Model      | `models/Vehicle.js`                | MongoDB schema                        |
+
+**Refactor Improvements:**
+
+- Separated pagination validation into `validatePaginationParams()` function
+- Extracted database operations into `getAllVehicles()` service function
+- Clean controller that orchestrates validator → service → response
+- Consistent with auth refactor pattern (validator + service layers)
+- Safe parameter handling with Math.max() for graceful invalid input handling
 
 **Features:**
 

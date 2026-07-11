@@ -47,6 +47,17 @@ function validateAddVehicleInput({
   return null;
 }
 
+function validatePaginationParams(query) {
+  const limit = parseInt(query.limit) || 10;
+  const skip = parseInt(query.skip) || 0;
+
+  return {
+    limit: Math.max(1, limit),
+    skip: Math.max(0, skip),
+  };
+}
+
 module.exports = {
   validateAddVehicleInput,
+  validatePaginationParams,
 };

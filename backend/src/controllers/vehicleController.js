@@ -1,46 +1,33 @@
 const Vehicle = require("../models/Vehicle");
 const { formatVehicleResponse } = require("../utils/formatVehicle");
+const {
+  validateAddVehicleInput,
+  validatePaginationParams,
+} = require("../validators/vehicleValidator");
+const { addVehicle, getAllVehicles } = require("../services/vehicleService");
 
 const createVehicle = async (req, res) => {
   const { make, model, year, price, mileage, color, fuelType, transmission } =
     req.body;
 
-  // Required fields validation
-  if (!make) {
-    return res.status(400).json({ message: "Make is required" });
+  // Validate input
+  const validationError = validateAddVehicleInput({
+    make,
+    model,
+    year,
+    price,
+    mileage,
+    color,
+    fuelType,
+    transmission,
+  });
+
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
   }
 
-  if (!model) {
-    return res.status(400).json({ message: "Model is required" });
-  }
-
-  if (year === undefined || year === null) {
-    return res.status(400).json({ message: "Year is required" });
-  }
-
-  if (price === undefined || price === null) {
-    return res.status(400).json({ message: "Price is required" });
-  }
-
-  // Year validation
-  if (typeof year !== "number" || !Number.isInteger(year)) {
-    return res.status(400).json({ message: "Year must be a valid number" });
-  }
-
-  const currentYear = new Date().getFullYear();
-  if (year > currentYear) {
-    return res.status(400).json({ message: "Year cannot be in the future" });
-  }
-
-  // Price validation
-  if (typeof price !== "number" || price < 0) {
-    return res
-      .status(400)
-      .json({ message: "Price must be a non-negative number" });
-  }
-
-  // Create vehicle in database
-  const vehicle = await Vehicle.create({
+  // Create vehicle using service
+  const vehicle = await addVehicle({
     make,
     model,
     year,
@@ -58,18 +45,11 @@ const createVehicle = async (req, res) => {
 };
 
 const getVehicles = async (req, res) => {
-  // Get pagination parameters from query
-  const limit = parseInt(req.query.limit) || 10;
-  const skip = parseInt(req.query.skip) || 0;
+  // Validate and parse pagination parameters
+  const { limit, skip } = validatePaginationParams(req.query);
 
-  // Fetch vehicles from database sorted by creation date (newest first)
-  const vehicles = await Vehicle.find()
-    .sort({ createdAt: -1 })
-    .limit(limit)
-    .skip(skip);
-
-  // Get total count of all vehicles
-  const totalCount = await Vehicle.countDocuments();
+  // Fetch vehicles using service
+  const { vehicles, totalCount } = await getAllVehicles(limit, skip);
 
   // Format vehicles for response
   const formattedVehicles = vehicles.map(formatVehicleResponse);
