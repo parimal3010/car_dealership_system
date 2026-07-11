@@ -288,20 +288,76 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-## API Endpoints (In Development)
+### Step 6: View Vehicles (List All) — 🔴 RED (tests written, not yet implemented)
 
-| Method | Endpoint                     | Auth      | Status     | Phase    |
-| ------ | ---------------------------- | --------- | ---------- | -------- |
-| GET    | `/api/health`                | Public    | ✅ Done    | Complete |
-| POST   | `/api/auth/register`         | Public    | ✅ Done    | Complete |
-| POST   | `/api/auth/login`            | Public    | ✅ Done    | Complete |
-| POST   | `/api/vehicles`              | Admin     | ✅ Done    | Complete |
-| GET    | `/api/vehicles`              | Protected | ⬜ Pending | —        |
-| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending | —        |
-| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending | —        |
-| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending | —        |
-| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending | —        |
-| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending | —        |
+**Endpoint:** `GET /api/vehicles`
+
+**Test file:** `backend/tests/vehicles/getVehicles.test.js`
+
+**Authorization:** Protected (requires valid JWT, all authenticated users)
+
+| Test Category            | Test Cases | Expected Status | Description                                                                       |
+| ------------------------ | ---------- | --------------- | --------------------------------------------------------------------------------- |
+| **Successful Retrieval** | 5          | 200             | Empty list, all vehicles, correct structure, no sensitive data, sorted descending |
+| **Pagination**           | 3          | 200             | Limit/skip parameters, vehicle count, total count                                 |
+| **Authorization**        | 3          | 401             | No token, invalid token, both admin/user can access                               |
+| **Error Handling**       | 2          | 200             | Invalid limit, invalid skip (graceful handling)                                   |
+
+**Request (with optional query parameters):**
+
+```
+GET /api/vehicles?limit=10&skip=0
+Authorization: Bearer <jwt-token>
+```
+
+**Expected success response (200):**
+
+```json
+{
+  "message": "Vehicles retrieved successfully",
+  "vehicles": [
+    {
+      "id": "<mongodb-id>",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2023,
+      "price": 25000,
+      "mileage": 5000,
+      "color": "Silver",
+      "fuelType": "Gasoline",
+      "transmission": "Automatic",
+      "createdAt": "<timestamp>"
+    }
+  ],
+  "count": 1,
+  "totalCount": 5
+}
+```
+
+**Query Parameters:**
+
+- `limit` (optional, number, default: 10) — Max vehicles to return
+- `skip` (optional, number, default: 0) — Number of vehicles to skip
+
+**Features:**
+
+- ✅ 13 test cases written
+- ✅ All tests currently failing (RED phase)
+- ✅ Covers successful retrieval, pagination, authorization, error handling
+- ⏳ Awaiting implementation (Green phase)
+
+| Method | Endpoint                     | Auth      | Status           | Phase    |
+| ------ | ---------------------------- | --------- | ---------------- | -------- |
+| GET    | `/api/health`                | Public    | ✅ Done          | Complete |
+| POST   | `/api/auth/register`         | Public    | ✅ Done          | Complete |
+| POST   | `/api/auth/login`            | Public    | ✅ Done          | Complete |
+| POST   | `/api/vehicles`              | Admin     | ✅ Done          | Complete |
+| GET    | `/api/vehicles`              | Protected | 🔴 Tests Written | RED      |
+| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending       | —        |
+| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
+| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
+| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending       | —        |
+| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending       | —        |
 
 ---
 
