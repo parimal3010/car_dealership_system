@@ -378,20 +378,112 @@ Authorization: Bearer <jwt-token>
 
 ---
 
+### Step 7: Search Vehicles (Query Filters) — 🔴 RED (tests written)
+
+**Endpoint:** `GET /api/vehicles/search`
+
+**Test file:** `backend/tests/vehicles/searchVehicles.test.js`
+
+**Authorization:** Protected (requires valid JWT, all authenticated users)
+
+**Search by:**
+
+- `make` (e.g., "Toyota") — case-insensitive
+- `model` (e.g., "Camry") — case-insensitive
+- `fuelType` (e.g., "Gasoline", "Electric", "Hybrid") — case-insensitive
+- `year` (e.g., 2023) — exact match
+- `minPrice` & `maxPrice` (e.g., 20000-30000) — price range
+- **All parameters are optional and combinable**
+
+**Request (with optional query parameters):**
+
+```
+GET /api/vehicles/search?make=Toyota&fuelType=Gasoline&minPrice=20000&maxPrice=30000&limit=10&skip=0
+Authorization: Bearer <jwt-token>
+```
+
+**Expected success response (200):**
+
+```json
+{
+  "message": "Vehicles retrieved successfully",
+  "vehicles": [
+    {
+      "id": "<mongodb-id>",
+      "make": "Toyota",
+      "model": "Camry",
+      "year": 2023,
+      "price": 25000,
+      "mileage": 5000,
+      "color": "Silver",
+      "fuelType": "Gasoline",
+      "transmission": "Automatic",
+      "createdAt": "<timestamp>"
+    }
+  ],
+  "count": 1,
+  "totalCount": 5
+}
+```
+
+**Query Parameters:**
+
+- `make` (optional, string) — Search by vehicle make
+- `model` (optional, string) — Search by vehicle model
+- `fuelType` (optional, string) — Search by fuel type
+- `year` (optional, number) — Filter by exact year
+- `minPrice` (optional, number) — Minimum price (default: 0)
+- `maxPrice` (optional, number) — Maximum price (no limit if not provided)
+- `limit` (optional, number, default: 10) — Max results per page
+- `skip` (optional, number, default: 0) — Results to skip for pagination
+
+**Test Summary:**
+
+- ✅ 28 test cases written (all currently failing — RED phase)
+- ✅ Search by individual filters (6 tests)
+- ✅ Search by combined filters (4 tests)
+- ✅ Price range filtering (5 tests)
+- ✅ Year filtering (2 tests)
+- ✅ Pagination with search (2 tests)
+- ✅ Authorization (3 tests)
+- ✅ Response format validation (2 tests)
+- ✅ Empty results handling (1 test)
+- ✅ Sorting validation (1 test)
+
+**Test Categories:**
+
+| Category          | Test Count | Description                                                  |
+| ----------------- | ---------- | ------------------------------------------------------------ |
+| Search by make    | 2          | Case-insensitive, no results                                 |
+| Search by model   | 2          | Case-insensitive, no results                                 |
+| Search by fuel    | 2          | Gasoline, Electric, etc.                                     |
+| Price range       | 5          | Min/Max/Both, negative handling, no results                  |
+| Year filter       | 2          | Exact match, no results                                      |
+| Combined filters  | 4          | Make+Fuel, Price+Fuel, Year+Make+Price, no matches           |
+| Pagination        | 2          | Limit/skip with search results                               |
+| Authorization     | 3          | No token, invalid token, admin+user access                   |
+| Response format   | 2          | Field validation, no sensitive data                          |
+| Empty results     | 1          | No matches message and formatting                            |
+| Sorting           | 1          | Newest first by createdAt                                    |
+
+**Status:** ⏳ Awaiting implementation (GREEN phase). All tests currently failing (404 endpoint not found).
+
+---
+
 ## API Endpoints Summary
 
-| Method | Endpoint                     | Auth      | Status  | Phase    |
-| ------ | ---------------------------- | --------- | ------- | -------- |
-| GET    | `/api/health`                | Public    | ✅ Done | Complete |
-| POST   | `/api/auth/register`         | Public    | ✅ Done | Complete |
-| POST   | `/api/auth/login`            | Public    | ✅ Done | Complete |
-| POST   | `/api/vehicles`              | Admin     | ✅ Done | Complete |
-| GET    | `/api/vehicles`              | Protected | ✅ Done | Complete |
-| GET    | `/api/vehicles/search`       | Protected | ⬜ Todo | —        |
-| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Todo | —        |
-| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Todo | —        |
-| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Todo | —        |
-| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Todo | —        |
+| Method | Endpoint                     | Auth      | Status           | Phase |
+| ------ | ---------------------------- | --------- | ---------------- | ----- |
+| GET    | `/api/health`                | Public    | ✅ Done          | ✅    |
+| POST   | `/api/auth/register`         | Public    | ✅ Done          | ✅    |
+| POST   | `/api/auth/login`            | Public    | ✅ Done          | ✅    |
+| POST   | `/api/vehicles`              | Admin     | ✅ Done          | ✅    |
+| GET    | `/api/vehicles`              | Protected | ✅ Done          | ✅    |
+| GET    | `/api/vehicles/search`       | Protected | 🔴 Tests Written | RED   |
+| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —     |
+| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —     |
+| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending       | —     |
+| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending       | —     |
 
 ---
 
