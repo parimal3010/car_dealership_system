@@ -196,3 +196,119 @@ describe("DELETE /api/vehicles/:id", () => {
     );
   });
 });
+
+
+
+
+
+
+
+
+describe("POST /api/vehicles/:id/purchase", () => {
+  let vehicle;
+
+  beforeEach(async () => {
+    vehicle = await Vehicle.create({
+      make: "Toyota",
+      model: "Camry",
+      year: 2020,
+      price: 25000,
+      mileage: 30000,
+      color: "White",
+      fuelType: "Petrol",
+      category: "Sedan",
+      quantity: 5,
+    });
+  });
+
+  afterEach(async () => {
+    await Vehicle.deleteMany();
+  });
+
+
+  test("should purchase vehicle and decrease quantity successfully", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/purchase`)
+      .send({
+        quantity: 1,
+      });
+
+    expect(response.statusCode).toBe(200);
+
+    expect(response.body).toEqual({
+      message: "Vehicle purchased successfully",
+      remainingQuantity: 4,
+    });
+
+    const updatedVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(updatedVehicle.quantity).toBe(4);
+  });
+
+
+  test("should return 404 if vehicle does not exist", async () => {
+    const fakeId = "64b7f9a12345678901234567";
+
+    const response = await request(app)
+      .post(`/api/vehicles/${fakeId}/purchase`)
+      .send({
+        quantity: 1,
+      });
+
+    expect(response.statusCode).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Vehicle not found",
+    });
+  });
+
+
+  test("should return 400 if purchase quantity is invalid", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/purchase`)
+      .send({
+        quantity: 0,
+      });
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toHaveProperty(
+      "message"
+    );
+  });
+
+
+  test("should return 400 if requested quantity exceeds available stock", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/purchase`)
+      .send({
+        quantity: 10,
+      });
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toEqual({
+      message: "Insufficient vehicle quantity",
+    });
+
+
+    const unchangedVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(unchangedVehicle.quantity).toBe(5);
+  });
+
+
+  test("should reject invalid vehicle id", async () => {
+    const response = await request(app)
+      .post("/api/vehicles/invalid-id/purchase")
+      .send({
+        quantity: 1,
+      });
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toHaveProperty(
+      "message"
+    );
+  });
+});
