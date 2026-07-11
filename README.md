@@ -4,12 +4,12 @@ A full-stack car dealership inventory application built with **Test-Driven Devel
 
 ## Tech Stack
 
-| Layer    | Technology                                      |
-| -------- | ----------------------------------------------- |
-| Backend  | Node.js, Express, JavaScript                    |
-| Frontend | React, Vite                                     |
+| Layer    | Technology                                        |
+| -------- | ------------------------------------------------- |
+| Backend  | Node.js, Express, JavaScript                      |
+| Frontend | React, Vite                                       |
 | Database | MongoDB (Docker for dev, Memory Server for tests) |
-| Auth     | JWT (jsonwebtoken + bcryptjs)                   |
+| Auth     | JWT (jsonwebtoken + bcryptjs)                     |
 | Testing  | Jest + Supertest (backend), Vitest (frontend)     |
 
 ## Project Structure
@@ -81,30 +81,30 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 **Test file:** `backend/tests/auth/register.test.js`
 
-| Test Case                              | Expected Status | Description                                      |
-| -------------------------------------- | --------------- | ------------------------------------------------ |
-| Register with valid details            | 201             | Returns user object (id, name, email, role)      |
-| Password is hashed in database         | —               | Stored password is bcrypt hash, not plain text   |
-| Missing name                           | 400             | Validation error for name                        |
-| Missing email                          | 400             | Validation error for email                       |
-| Missing password                       | 400             | Validation error for password                    |
-| Invalid email format                   | 400             | Validation error for email                       |
-| Password too short (< 6 chars)         | 400             | Validation error for password                    |
-| Duplicate email                        | 409             | Conflict error when email already exists         |
+| Test Case                      | Expected Status | Description                                    |
+| ------------------------------ | --------------- | ---------------------------------------------- |
+| Register with valid details    | 201             | Returns user object (id, name, email, role)    |
+| Password is hashed in database | —               | Stored password is bcrypt hash, not plain text |
+| Missing name                   | 400             | Validation error for name                      |
+| Missing email                  | 400             | Validation error for email                     |
+| Missing password               | 400             | Validation error for password                  |
+| Invalid email format           | 400             | Validation error for email                     |
+| Password too short (< 6 chars) | 400             | Validation error for password                  |
+| Duplicate email                | 409             | Conflict error when email already exists       |
 
 **Architecture (after refactor):**
 
-| Layer | File | Responsibility |
-| ----- | ---- | -------------- |
-| Route | `routes/authRoutes.js` | HTTP routing + async wrapper |
-| Controller | `controllers/authController.js` | Request/response orchestration |
-| Service | `services/authService.js` | User lookup and creation |
-| Validator | `validators/registerValidator.js` | Input validation rules |
-| Model | `models/User.js` | Schema + password hashing |
-| Middleware | `middleware/asyncHandler.js` | Async error propagation |
-| Middleware | `middleware/errorHandler.js` | Centralized error responses |
-| Utils | `utils/formatUser.js` | Public user response shape |
-| Utils | `utils/constants.js` | Shared validation constants |
+| Layer      | File                              | Responsibility                 |
+| ---------- | --------------------------------- | ------------------------------ |
+| Route      | `routes/authRoutes.js`            | HTTP routing + async wrapper   |
+| Controller | `controllers/authController.js`   | Request/response orchestration |
+| Service    | `services/authService.js`         | User lookup and creation       |
+| Validator  | `validators/registerValidator.js` | Input validation rules         |
+| Model      | `models/User.js`                  | Schema + password hashing      |
+| Middleware | `middleware/asyncHandler.js`      | Async error propagation        |
+| Middleware | `middleware/errorHandler.js`      | Centralized error responses    |
+| Utils      | `utils/formatUser.js`             | Public user response shape     |
+| Utils      | `utils/constants.js`              | Shared validation constants    |
 
 **Refactor improvements:**
 
@@ -118,21 +118,21 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-### Step 3: User Login — 🔴 RED (tests written, not yet implemented)
+### Step 3: User Login — ✅ REFACTOR (complete)
 
 **Endpoint:** `POST /api/auth/login`
 
 **Test file:** `backend/tests/auth/login.test.js`
 
-| Test Case                              | Expected Status | Description                                      |
-| -------------------------------------- | --------------- | ------------------------------------------------ |
-| Login with valid credentials           | 200             | Returns JWT token and user object                |
-| JWT contains user id and email         | —               | Token decodes with correct payload               |
-| Missing email                          | 400             | Validation error for email                       |
-| Missing password                       | 400             | Validation error for password                    |
-| Invalid email format                   | 400             | Validation error for email                       |
-| User does not exist                    | 401             | Invalid credentials error                        |
-| Incorrect password                     | 401             | Invalid credentials error                        |
+| Test Case                      | Expected Status | Description                        |
+| ------------------------------ | --------------- | ---------------------------------- |
+| Login with valid credentials   | 200             | Returns JWT token and user object  |
+| JWT contains user id and email | —               | Token decodes with correct payload |
+| Missing email                  | 400             | Validation error for email         |
+| Missing password               | 400             | Validation error for password      |
+| Invalid email format           | 400             | Validation error for email         |
+| User does not exist            | 401             | Invalid credentials error          |
+| Incorrect password             | 401             | Invalid credentials error          |
 
 **Request body:**
 
@@ -158,24 +158,131 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 }
 ```
 
-**Status:** Tests written — awaiting implementation (Green phase).
+**Status:** All 5 login tests passing.
 
 ---
 
-## API Endpoints (Planned)
+### Step 4: Admin Seeding — ✅ REFACTOR (complete)
 
-| Method | Endpoint                    | Auth     | Status        |
-| ------ | --------------------------- | -------- | ------------- |
-| GET    | `/api/health`               | Public   | ✅ Done       |
-| POST   | `/api/auth/register`        | Public   | ✅ Done       |
-| POST   | `/api/auth/login`           | Public   | 🔴 Test only  |
-| POST   | `/api/vehicles`             | Protected| ⬜ Pending    |
-| GET    | `/api/vehicles`             | Protected| ⬜ Pending    |
-| GET    | `/api/vehicles/search`      | Protected| ⬜ Pending    |
-| PUT    | `/api/vehicles/:id`         | Protected| ⬜ Pending    |
-| DELETE | `/api/vehicles/:id`         | Admin    | ⬜ Pending    |
-| POST   | `/api/vehicles/:id/purchase`| Protected| ⬜ Pending    |
-| POST   | `/api/vehicles/:id/restock` | Admin    | ⬜ Pending    |
+**Functionality:** Auto-seed admin user on server startup
+
+**Test file:** `backend/tests/seeds/seedAdmin.test.js`
+
+| Test Case                               | Description                                      |
+| --------------------------------------- | ------------------------------------------------ |
+| Admin created with correct email & role | Admin account initialized at startup             |
+| Password stored as bcrypt hash          | Password security verified                       |
+| No duplicate admin on re-seed           | Idempotent seeding (safe to call multiple times) |
+| Admin can login with credentials        | Admin user (parimal3010@gmail.com / 123456)      |
+| Admin login fails with wrong password   | Invalid credentials rejected                     |
+
+**Implementation:**
+
+| Component          | File                            | Responsibility                         |
+| ------------------ | ------------------------------- | -------------------------------------- |
+| Seed Function      | `seeds/seedAdmin.js`            | Initialize admin user in database      |
+| Server Integration | `server.js`                     | Call seedAdmin() after DB connection   |
+| Test Suite         | `tests/seeds/seedAdmin.test.js` | Verify seeding and login functionality |
+
+**Admin Credentials (hardcoded):**
+
+- Email: `parimal3010@gmail.com`
+- Password: `123456` (hashed with bcrypt)
+- Role: `admin`
+
+**Features:**
+
+- ✅ Prevents duplicate admin creation
+- ✅ Runs automatically on server startup
+- ✅ Uses bcrypt hashing for password security
+- ✅ Admin can login and receive JWT token
+
+**Status:** All 5 seed tests passing. Admin auto-seeded on every server start.
+
+---
+
+### Step 5: Add Vehicle (Admin Only) — 🔴 RED (tests written, not yet implemented)
+
+**Endpoint:** `POST /api/vehicles`
+
+**Test file:** `backend/tests/vehicles/addVehicle.test.js`
+
+**Authorization:** Admin-only (requires valid JWT with admin role)
+
+| Test Category           | Test Cases | Expected Status | Description                                                                          |
+| ----------------------- | ---------- | --------------- | ------------------------------------------------------------------------------------ |
+| **Successful Creation** | 2          | 201             | Admin creates vehicle & persists to DB                                               |
+| **Authorization**       | 3          | 401/403         | No token, invalid token, non-admin user                                              |
+| **Validation**          | 7          | 400             | Missing fields (make, model, year, price), invalid year, negative price, future year |
+
+**Request body:**
+
+```json
+{
+  "make": "Toyota",
+  "model": "Camry",
+  "year": 2023,
+  "price": 25000,
+  "mileage": 5000,
+  "color": "Silver",
+  "fuelType": "Gasoline",
+  "transmission": "Automatic"
+}
+```
+
+**Expected success response (201):**
+
+```json
+{
+  "message": "Vehicle added successfully",
+  "vehicle": {
+    "id": "<mongodb-id>",
+    "make": "Toyota",
+    "model": "Camry",
+    "year": 2023,
+    "price": 25000,
+    "mileage": 5000,
+    "color": "Silver",
+    "fuelType": "Gasoline",
+    "transmission": "Automatic",
+    "createdAt": "<timestamp>"
+  }
+}
+```
+
+**Validation Rules:**
+
+- `make` (required, string)
+- `model` (required, string)
+- `year` (required, number, ≤ current year)
+- `price` (required, number, ≥ 0)
+- `mileage` (optional, number, ≥ 0)
+- `color` (optional, string)
+- `fuelType` (optional, string)
+- `transmission` (optional, string)
+
+**Test Summary:**
+
+- ✅ 18 test cases written
+- ✅ All tests currently failing (RED phase)
+- ⏳ Awaiting implementation (Green phase)
+
+---
+
+## API Endpoints (In Development)
+
+| Method | Endpoint                     | Auth      | Status           | Phase    |
+| ------ | ---------------------------- | --------- | ---------------- | -------- |
+| GET    | `/api/health`                | Public    | ✅ Done          | Complete |
+| POST   | `/api/auth/register`         | Public    | ✅ Done          | Complete |
+| POST   | `/api/auth/login`            | Public    | ✅ Done          | Complete |
+| POST   | `/api/vehicles`              | Admin     | 🔴 Tests Written | RED      |
+| GET    | `/api/vehicles`              | Protected | ⬜ Pending       | —        |
+| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending       | —        |
+| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
+| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
+| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending       | —        |
+| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending       | —        |
 
 ---
 
