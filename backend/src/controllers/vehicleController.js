@@ -65,22 +65,46 @@ const getVehicles = async (req, res) => {
   });
 };
 
+// const searchVehicle = async (req, res) => {
+//   // Validate search parameters
+//   const { filter, error } = validateSearchParams(req.query);
+
+//   if (error) {
+//     return res.status(400).json({ message: error });
+//   }
+
+//   // Search vehicles
+//   const vehicles = await searchVehicles(filter);
+
+//   return res.status(200).json({
+//     message: "Vehicles retrieved successfully",
+//     vehicles: vehicles.map(formatVehicleResponse),
+//     count: vehicles.length,
+//   });
+// };
 const searchVehicle = async (req, res) => {
-  // Validate search parameters
-  const { filter, error } = validateSearchParams(req.query);
+  try {
+    const { filter, error } = validateSearchParams(req.query);
 
-  if (error) {
-    return res.status(400).json({ message: error });
+    if (error) {
+      return res.status(400).json({ message: error });
+    }
+
+    const vehicles = await searchVehicles(filter);
+
+    const formattedVehicles = vehicles.map(formatVehicleResponse);
+
+    return res.status(200).json({
+      message: "Vehicles retrieved successfully",
+      vehicles: formattedVehicles,
+      count: formattedVehicles.length,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to retrieve vehicles",
+      error: error.message,
+    });
   }
-
-  // Search vehicles
-  const vehicles = await searchVehicles(filter);
-
-  return res.status(200).json({
-    message: "Vehicles retrieved successfully",
-    vehicles: vehicles.map(formatVehicleResponse),
-    count: vehicles.length,
-  });
 };
 
 module.exports = {
