@@ -312,3 +312,138 @@ describe("POST /api/vehicles/:id/purchase", () => {
     );
   });
 });
+
+
+
+
+
+
+
+describe("POST /api/vehicles/:id/restock", () => {
+  let vehicle;
+
+  beforeEach(async () => {
+    vehicle = await Vehicle.create({
+      make: "Toyota",
+      model: "Camry",
+      year: 2020,
+      price: 25000,
+      mileage: 30000,
+      color: "White",
+      fuelType: "Petrol",
+      category: "Sedan",
+      quantity: 5,
+    });
+  });
+
+  afterEach(async () => {
+    await Vehicle.deleteMany();
+  });
+
+
+  test("should restock vehicle successfully for admin user", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/restock`)
+      .set("Authorization", "Bearer admin-token")
+      .send({
+        quantity: 10,
+      });
+
+    expect(response.statusCode).toBe(200);
+
+    expect(response.body).toEqual({
+      message: "Vehicle restocked successfully",
+      quantity: 15,
+    });
+
+    const updatedVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(updatedVehicle.quantity).toBe(15);
+  });
+
+
+  test("should return 404 if vehicle does not exist", async () => {
+    const fakeId = "64b7f9a12345678901234567";
+
+    const response = await request(app)
+      .post(`/api/vehicles/${fakeId}/restock`)
+      .set("Authorization", "Bearer admin-token")
+      .send({
+        quantity: 5,
+      });
+
+    expect(response.statusCode).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Vehicle not found",
+    });
+  });
+
+
+  test("should return 400 if restock quantity is invalid", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/restock`)
+      .set("Authorization", "Bearer admin-token")
+      .send({
+        quantity: 0,
+      });
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toHaveProperty(
+      "message"
+    );
+  });
+
+
+  test("should return 403 if user is not admin", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/restock`)
+      .set("Authorization", "Bearer user-token")
+      .send({
+        quantity: 5,
+      });
+
+    expect(response.statusCode).toBe(403);
+
+    expect(response.body).toEqual({
+      message: "Admin access required",
+    });
+
+
+    const unchangedVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(unchangedVehicle.quantity).toBe(5);
+  });
+
+
+  test("should return 401 if user is not authenticated", async () => {
+    const response = await request(app)
+      .post(`/api/vehicles/${vehicle._id}/restock`)
+      .send({
+        quantity: 5,
+      });
+
+    expect(response.statusCode).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Authentication required",
+    });
+  });
+
+
+  test("should reject invalid vehicle id", async () => {
+    const response = await request(app)
+      .post("/api/vehicles/invalid-id/restock")
+      .set("Authorization", "Bearer admin-token")
+      .send({
+        quantity: 5,
+      });
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toHaveProperty(
+      "message"
+    );
+  });
+});
