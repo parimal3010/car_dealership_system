@@ -57,6 +57,32 @@ const createVehicle = async (req, res) => {
   });
 };
 
+const getVehicles = async (req, res) => {
+  // Get pagination parameters from query
+  const limit = parseInt(req.query.limit) || 10;
+  const skip = parseInt(req.query.skip) || 0;
+
+  // Fetch vehicles from database sorted by creation date (newest first)
+  const vehicles = await Vehicle.find()
+    .sort({ createdAt: -1 })
+    .limit(limit)
+    .skip(skip);
+
+  // Get total count of all vehicles
+  const totalCount = await Vehicle.countDocuments();
+
+  // Format vehicles for response
+  const formattedVehicles = vehicles.map(formatVehicleResponse);
+
+  return res.status(200).json({
+    message: "Vehicles retrieved successfully",
+    vehicles: formattedVehicles,
+    count: formattedVehicles.length,
+    totalCount,
+  });
+};
+
 module.exports = {
   createVehicle,
+  getVehicles,
 };

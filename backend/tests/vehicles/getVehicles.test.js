@@ -175,8 +175,10 @@ describe("GET /api/vehicles", () => {
 
       expect(response.status).toBe(200);
       expect(response.body.vehicles).toHaveLength(2);
+      // Sorted by createdAt descending, skip=1 means we skip the newest
+      // So first returned is the second newest (insertedVehicles[1])
       expect(response.body.vehicles[0].id).toEqual(
-        insertedVehicles[2]._id.toString(),
+        insertedVehicles[1]._id.toString(),
       );
     });
 

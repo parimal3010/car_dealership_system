@@ -288,13 +288,13 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-### Step 6: View Vehicles (List All) — 🔴 RED (tests written, not yet implemented)
+### Step 6: View Vehicles (List All) — ✅ REFACTOR (complete)
 
 **Endpoint:** `GET /api/vehicles`
 
 **Test file:** `backend/tests/vehicles/getVehicles.test.js`
 
-**Authorization:** Protected (requires valid JWT, all authenticated users)
+**Authorization:** Protected (requires valid JWT, all authenticated users can access)
 
 | Test Category            | Test Cases | Expected Status | Description                                                                       |
 | ------------------------ | ---------- | --------------- | --------------------------------------------------------------------------------- |
@@ -339,25 +339,49 @@ Authorization: Bearer <jwt-token>
 - `limit` (optional, number, default: 10) — Max vehicles to return
 - `skip` (optional, number, default: 0) — Number of vehicles to skip
 
+**Test Summary:**
+
+- ✅ 13 test cases written & passing
+- ✅ Successful retrieval tests (5/5 passing)
+- ✅ Pagination tests (3/3 passing)
+- ✅ Authorization tests (3/3 passing)
+- ✅ Error handling tests (2/2 passing)
+
+**Implementation Details:**
+
+| Component  | File                               | Pattern                                  |
+| ---------- | ---------------------------------- | ---------------------------------------- |
+| Controller | `controllers/vehicleController.js` | Inline validation, direct DB operations  |
+| Middleware | `middleware/authMiddleware.js`     | JWT authentication (no role restriction) |
+| Routes     | `routes/vehicleRoutes.js`          | Protected with auth check                |
+| Format     | `utils/formatVehicle.js`           | Response formatting utility              |
+| Model      | `models/Vehicle.js`                | MongoDB schema                           |
+
 **Features:**
 
-- ✅ 13 test cases written
-- ✅ All tests currently failing (RED phase)
-- ✅ Covers successful retrieval, pagination, authorization, error handling
-- ⏳ Awaiting implementation (Green phase)
+- ✅ Retrieve all vehicles with pagination
+- ✅ Sort by creation date (newest first)
+- ✅ Support limit and skip query parameters
+- ✅ Return total vehicle count and current page count
+- ✅ Accessible to all authenticated users (admin + regular users)
+- ✅ Return cleanly formatted vehicles (no database metadata)
 
-| Method | Endpoint                     | Auth      | Status           | Phase    |
-| ------ | ---------------------------- | --------- | ---------------- | -------- |
-| GET    | `/api/health`                | Public    | ✅ Done          | Complete |
-| POST   | `/api/auth/register`         | Public    | ✅ Done          | Complete |
-| POST   | `/api/auth/login`            | Public    | ✅ Done          | Complete |
-| POST   | `/api/vehicles`              | Admin     | ✅ Done          | Complete |
-| GET    | `/api/vehicles`              | Protected | 🔴 Tests Written | RED      |
-| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending       | —        |
-| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
-| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
-| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending       | —        |
-| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending       | —        |
+---
+
+## API Endpoints Summary
+
+| Method | Endpoint                     | Auth      | Status  | Phase    |
+| ------ | ---------------------------- | --------- | ------- | -------- |
+| GET    | `/api/health`                | Public    | ✅ Done | Complete |
+| POST   | `/api/auth/register`         | Public    | ✅ Done | Complete |
+| POST   | `/api/auth/login`            | Public    | ✅ Done | Complete |
+| POST   | `/api/vehicles`              | Admin     | ✅ Done | Complete |
+| GET    | `/api/vehicles`              | Protected | ✅ Done | Complete |
+| GET    | `/api/vehicles/search`       | Protected | ⬜ Todo | —        |
+| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Todo | —        |
+| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Todo | —        |
+| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Todo | —        |
+| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Todo | —        |
 
 ---
 
