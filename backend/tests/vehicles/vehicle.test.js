@@ -99,3 +99,100 @@ describe("PUT /api/vehicles/:id", () => {
     });
   });
 });
+
+
+describe("DELETE /api/vehicles/:id", () => {
+  let vehicle;
+
+  beforeEach(async () => {
+    vehicle = await Vehicle.create({
+      make: "Toyota",
+      model: "Camry",
+      year: 2020,
+      price: 25000,
+      mileage: 30000,
+      color: "White",
+      fuelType: "Petrol",
+      category: "Sedan",
+    });
+  });
+
+  afterEach(async () => {
+    await Vehicle.deleteMany();
+  });
+
+
+  test("should delete vehicle successfully for admin user", async () => {
+    const response = await request(app)
+      .delete(`/api/vehicles/${vehicle._id}`)
+      .set("Authorization", "Bearer admin-token");
+
+    expect(response.statusCode).toBe(200);
+
+    expect(response.body).toEqual({
+      message: "Vehicle deleted successfully",
+    });
+
+    const deletedVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(deletedVehicle).toBeNull();
+  });
+
+
+  test("should return 404 if vehicle does not exist", async () => {
+    const fakeId = "64b7f9a12345678901234567";
+
+    const response = await request(app)
+      .delete(`/api/vehicles/${fakeId}`)
+      .set("Authorization", "Bearer admin-token");
+
+    expect(response.statusCode).toBe(404);
+
+    expect(response.body).toEqual({
+      message: "Vehicle not found",
+    });
+  });
+
+
+  test("should return 403 if user is not admin", async () => {
+    const response = await request(app)
+      .delete(`/api/vehicles/${vehicle._id}`)
+      .set("Authorization", "Bearer user-token");
+
+    expect(response.statusCode).toBe(403);
+
+    expect(response.body).toEqual({
+      message: "Admin access required",
+    });
+
+
+    const existingVehicle = await Vehicle.findById(vehicle._id);
+
+    expect(existingVehicle).not.toBeNull();
+  });
+
+
+  test("should return 401 if user is not authenticated", async () => {
+    const response = await request(app)
+      .delete(`/api/vehicles/${vehicle._id}`);
+
+    expect(response.statusCode).toBe(401);
+
+    expect(response.body).toEqual({
+      message: "Authentication required",
+    });
+  });
+
+
+  test("should reject invalid vehicle id", async () => {
+    const response = await request(app)
+      .delete("/api/vehicles/invalid-id")
+      .set("Authorization", "Bearer admin-token");
+
+    expect(response.statusCode).toBe(400);
+
+    expect(response.body).toHaveProperty(
+      "message"
+    );
+  });
+});
