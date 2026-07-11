@@ -1,10 +1,12 @@
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const User = require("../models/User");
+const { validateLoginInput } = require("../validators/loginValidator");
 const { validateRegisterInput } = require("../validators/registerValidator");
-const { findUserByEmail, registerUser } = require("../services/authService");
+const {
+  authenticateUser,
+  findUserByEmail,
+  registerUser,
+} = require("../services/authService");
 const { formatUserResponse } = require("../utils/formatUser");
-const { EMAIL_REGEX } = require("../utils/constants");
+const { generateToken } = require("../utils/generateToken");
 
 const register = async (req, res) => {
   const { name, email, password } = req.body;
@@ -30,33 +32,17 @@ const register = async (req, res) => {
 const login = async (req, res) => {
   const { email, password } = req.body;
 
-  if (!email) {
-    return res.status(400).json({ message: "Email is required" });
+  const validationError = validateLoginInput({ email, password });
+  if (validationError) {
+    return res.status(400).json({ message: validationError });
   }
 
-  if (!password) {
-    return res.status(400).json({ message: "Password is required" });
-  }
-
-  if (!EMAIL_REGEX.test(email)) {
-    return res.status(400).json({ message: "Invalid email format" });
-  }
-
-  const user = await User.findOne({ email }).select("+password");
+  const user = await authenticateUser({ email, password });
   if (!user) {
     return res.status(401).json({ message: "Invalid email or password" });
   }
 
-  const isPasswordValid = await bcrypt.compare(password, user.password);
-  if (!isPasswordValid) {
-    return res.status(401).json({ message: "Invalid email or password" });
-  }
-
-  const token = jwt.sign(
-    { userId: user._id.toString(), email: user.email },
-    process.env.JWT_SECRET,
-    { expiresIn: process.env.JWT_EXPIRES_IN || "7d" },
-  );
+  const token = generateToken(user);
 
   return res.status(200).json({
     message: "Login successful",
