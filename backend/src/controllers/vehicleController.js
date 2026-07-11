@@ -5,7 +5,7 @@ const createVehicle = async (req, res) => {
   const { make, model, year, price, mileage, color, fuelType, transmission } =
     req.body;
 
-  // Validation
+  // Required fields validation
   if (!make) {
     return res.status(400).json({ message: "Make is required" });
   }
@@ -14,10 +14,15 @@ const createVehicle = async (req, res) => {
     return res.status(400).json({ message: "Model is required" });
   }
 
-  if (!year) {
+  if (year === undefined || year === null) {
     return res.status(400).json({ message: "Year is required" });
   }
 
+  if (price === undefined || price === null) {
+    return res.status(400).json({ message: "Price is required" });
+  }
+
+  // Year validation
   if (typeof year !== "number" || !Number.isInteger(year)) {
     return res.status(400).json({ message: "Year must be a valid number" });
   }
@@ -27,17 +32,14 @@ const createVehicle = async (req, res) => {
     return res.status(400).json({ message: "Year cannot be in the future" });
   }
 
-  if (price === undefined || price === null) {
-    return res.status(400).json({ message: "Price is required" });
-  }
-
+  // Price validation
   if (typeof price !== "number" || price < 0) {
     return res
       .status(400)
       .json({ message: "Price must be a non-negative number" });
   }
 
-  // Create vehicle
+  // Create vehicle in database
   const vehicle = await Vehicle.create({
     make,
     model,

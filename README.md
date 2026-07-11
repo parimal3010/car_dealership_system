@@ -201,7 +201,7 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-### Step 5: Add Vehicle (Admin Only) — 🔴 RED (tests written, not yet implemented)
+### Step 5: Add Vehicle (Admin Only) — ✅ REFACTOR (complete)
 
 **Endpoint:** `POST /api/vehicles`
 
@@ -263,26 +263,45 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 **Test Summary:**
 
-- ✅ 18 test cases written
-- ✅ All tests currently failing (RED phase)
-- ⏳ Awaiting implementation (Green phase)
+- ✅ 12 test cases written & passing
+- ✅ All validation and authorization tests passing
+- ✅ Refactored for clean code (grouped validations, clear comments)
+- ✅ Inline validation pattern (matches login controller style)
+
+**Implementation Details:**
+
+| Component  | File                               | Pattern                                 |
+| ---------- | ---------------------------------- | --------------------------------------- |
+| Controller | `controllers/vehicleController.js` | Inline validation, direct DB operations |
+| Middleware | `middleware/authMiddleware.js`     | JWT + role-based authorization          |
+| Routes     | `routes/vehicleRoutes.js`          | Protected with auth & admin checks      |
+| Format     | `utils/formatVehicle.js`           | Response formatting utility             |
+| Model      | `models/Vehicle.js`                | MongoDB schema with validations         |
+
+**Refactor Improvements:**
+
+- Grouped validation by type (required fields, year checks, price checks)
+- Organized comments for readability
+- Direct `Vehicle.create()` in controller (no service layer)
+- Consistent response formatting
+- Admin-only access via middleware
 
 ---
 
 ## API Endpoints (In Development)
 
-| Method | Endpoint                     | Auth      | Status           | Phase    |
-| ------ | ---------------------------- | --------- | ---------------- | -------- |
-| GET    | `/api/health`                | Public    | ✅ Done          | Complete |
-| POST   | `/api/auth/register`         | Public    | ✅ Done          | Complete |
-| POST   | `/api/auth/login`            | Public    | ✅ Done          | Complete |
-| POST   | `/api/vehicles`              | Admin     | 🔴 Tests Written | RED      |
-| GET    | `/api/vehicles`              | Protected | ⬜ Pending       | —        |
-| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending       | —        |
-| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
-| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending       | —        |
-| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending       | —        |
-| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending       | —        |
+| Method | Endpoint                     | Auth      | Status     | Phase    |
+| ------ | ---------------------------- | --------- | ---------- | -------- |
+| GET    | `/api/health`                | Public    | ✅ Done    | Complete |
+| POST   | `/api/auth/register`         | Public    | ✅ Done    | Complete |
+| POST   | `/api/auth/login`            | Public    | ✅ Done    | Complete |
+| POST   | `/api/vehicles`              | Admin     | ✅ Done    | Complete |
+| GET    | `/api/vehicles`              | Protected | ⬜ Pending | —        |
+| GET    | `/api/vehicles/search`       | Protected | ⬜ Pending | —        |
+| PUT    | `/api/vehicles/:id`          | Admin     | ⬜ Pending | —        |
+| DELETE | `/api/vehicles/:id`          | Admin     | ⬜ Pending | —        |
+| POST   | `/api/vehicles/:id/purchase` | Protected | ⬜ Pending | —        |
+| POST   | `/api/vehicles/:id/restock`  | Admin     | ⬜ Pending | —        |
 
 ---
 
