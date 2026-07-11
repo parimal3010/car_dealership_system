@@ -154,11 +154,9 @@ const updateVehicleDetails = async (id, updateData) => {
 };
 const deleteVehicle = async (req, res) => {
   try {
-    const { id } = req.params;
+    const vehicle = await deleteVehicleById(req.params.id);
 
-    const deletedVehicle = await deleteVehicleById(id);
-
-    if (!deletedVehicle) {
+    if (!vehicle) {
       return res.status(404).json({
         message: "Vehicle not found",
       });
@@ -169,15 +167,13 @@ const deleteVehicle = async (req, res) => {
     });
 
   } catch (error) {
-    if (error.name === "CastError") {
-      return res.status(400).json({
-        message: "Invalid vehicle id",
-      });
-    }
+    const statusCode = error.name === "CastError" ? 400 : 500;
 
-    return res.status(500).json({
-      message: "Failed to delete vehicle",
-      error: error.message,
+    return res.status(statusCode).json({
+      message:
+        statusCode === 400
+          ? "Invalid vehicle id"
+          : "Failed to delete vehicle",
     });
   }
 };
