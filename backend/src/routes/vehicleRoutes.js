@@ -33,7 +33,10 @@ router.get(
   authenticateToken,
   asyncHandler(getVehicles)
 );
-
+const {
+  deleteVehicle,
+} = require("../controllers/vehicleController");
+router.delete("/:id", deleteVehicle);
 
 const {
   updateVehicle,

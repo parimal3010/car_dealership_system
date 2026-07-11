@@ -23,8 +23,14 @@ async function getAllVehicles(limit, skip) {
 const searchVehicles = async (filter) => {
   return Vehicle.find(filter).sort({ createdAt: -1 });
 };
+const deleteVehicleById = async (id) => {
+  const vehicle = await Vehicle.findByIdAndDelete(id);
+
+  return vehicle;
+};
 module.exports = {
   addVehicle,
   getAllVehicles,
    searchVehicles,
+   deleteVehicleById,
 };
