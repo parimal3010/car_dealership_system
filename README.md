@@ -75,7 +75,7 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-### Step 2: User Registration — 🔴 RED (tests written, not yet implemented)
+### Step 2: User Registration — 🟢 GREEN (basic implementation)
 
 **Endpoint:** `POST /api/auth/register`
 
@@ -92,31 +92,13 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 | Password too short (< 6 chars)         | 400             | Validation error for password                    |
 | Duplicate email                        | 409             | Conflict error when email already exists         |
 
-**Request body:**
+**Implementation files:**
 
-```json
-{
-  "name": "John Doe",
-  "email": "john@example.com",
-  "password": "password123"
-}
-```
+- `backend/src/models/User.js` — Mongoose schema with bcrypt password hashing
+- `backend/src/controllers/authController.js` — Register handler with validation
+- `backend/src/routes/authRoutes.js` — Auth route definitions
 
-**Expected success response (201):**
-
-```json
-{
-  "message": "User registered successfully",
-  "user": {
-    "id": "<mongodb-id>",
-    "name": "John Doe",
-    "email": "john@example.com",
-    "role": "user"
-  }
-}
-```
-
-**Status:** Tests written — awaiting implementation (Green phase).
+**Status:** All 8 registration tests passing — awaiting refactor phase.
 
 ---
 
@@ -125,7 +107,7 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 | Method | Endpoint                    | Auth     | Status        |
 | ------ | --------------------------- | -------- | ------------- |
 | GET    | `/api/health`               | Public   | ✅ Done       |
-| POST   | `/api/auth/register`        | Public   | 🔴 Test only  |
+| POST   | `/api/auth/register`        | Public   | ✅ Done       |
 | POST   | `/api/auth/login`           | Public   | ⬜ Pending    |
 | POST   | `/api/vehicles`             | Protected| ⬜ Pending    |
 | GET    | `/api/vehicles`             | Protected| ⬜ Pending    |
