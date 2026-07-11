@@ -1,4 +1,6 @@
 const { formatVehicleResponse } = require("../utils/formatVehicle");
+// const { updateVehicleDetails } = require("../services/vehicleService");
+// const { formatVehicleResponse } = require("../utils/vehicleFormatter");
 
 const {
   validateAddVehicleInput,
@@ -107,8 +109,54 @@ const searchVehicle = async (req, res) => {
   }
 };
 
+
+const updateVehicle = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    const vehicle = await updateVehicleDetails(id, req.body);
+
+    if (!vehicle) {
+      return res.status(404).json({
+        message: "Vehicle not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Vehicle updated successfully",
+      vehicle: formatVehicleResponse(vehicle),
+    });
+
+  } catch (error) {
+    if (error.name === "ValidationError") {
+      return res.status(400).json({
+        message: error.message,
+      });
+    }
+
+    return res.status(500).json({
+      message: "Failed to update vehicle",
+      error: error.message,
+    });
+  }
+};
+const updateVehicleDetails = async (id, updateData) => {
+  const vehicle = await Vehicle.findByIdAndUpdate(
+    id,
+    updateData,
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+
+  return vehicle;
+};
+
 module.exports = {
   createVehicle,
   getVehicles,
   searchVehicle,
+    updateVehicleDetails,
+     updateVehicle, 
 };

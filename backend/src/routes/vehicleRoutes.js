@@ -34,4 +34,10 @@ router.get(
   asyncHandler(getVehicles)
 );
 
+
+const {
+  updateVehicle,
+} = require("../controllers/vehicleController");
+
+router.put("/:id", updateVehicle);
 module.exports = router;
