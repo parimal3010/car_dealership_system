@@ -177,6 +177,51 @@ const deleteVehicle = async (req, res) => {
     });
   }
 };
+
+
+
+const purchaseVehicle = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { quantity } = req.body;
+
+    if (!quantity || quantity <= 0) {
+      return res.status(400).json({
+        message: "Invalid purchase quantity",
+      });
+    }
+
+    const vehicle = await purchaseVehicleById(id, quantity);
+
+    if (!vehicle) {
+      return res.status(404).json({
+        message: "Vehicle not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Vehicle purchased successfully",
+      remainingQuantity: vehicle.quantity,
+    });
+
+  } catch (error) {
+    if (error.message === "Insufficient quantity") {
+      return res.status(400).json({
+        message: "Insufficient vehicle quantity",
+      });
+    }
+
+    if (error.name === "CastError") {
+      return res.status(400).json({
+        message: "Invalid vehicle id",
+      });
+    }
+
+    return res.status(500).json({
+      message: "Failed to purchase vehicle",
+    });
+  }
+};
 module.exports = {
   createVehicle,
   getVehicles,
@@ -184,4 +229,5 @@ module.exports = {
     updateVehicleDetails,
      updateVehicle, 
      deleteVehicle,
+     purchaseVehicle,   
 };

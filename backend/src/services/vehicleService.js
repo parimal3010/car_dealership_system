@@ -28,9 +28,29 @@ const deleteVehicleById = async (id) => {
 
   return vehicle;
 };
+
+
+const purchaseVehicleById = async (id, quantity) => {
+  const vehicle = await Vehicle.findById(id);
+
+  if (!vehicle) {
+    return null;
+  }
+
+  if (vehicle.quantity < quantity) {
+    throw new Error("Insufficient quantity");
+  }
+
+  vehicle.quantity -= quantity;
+
+  await vehicle.save();
+
+  return vehicle;
+};
 module.exports = {
   addVehicle,
   getAllVehicles,
    searchVehicles,
    deleteVehicleById,
+   purchaseVehicleById,
 };

@@ -43,4 +43,9 @@ const {
 } = require("../controllers/vehicleController");
 
 router.put("/:id", updateVehicle);
+
+const {
+  purchaseVehicle,
+} = require("../controllers/vehicleController");
+router.post("/:id/purchase", purchaseVehicle);
 module.exports = router;
