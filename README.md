@@ -75,7 +75,7 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 
 ---
 
-### Step 2: User Registration — 🟢 GREEN (basic implementation)
+### Step 2: User Registration — ✅ REFACTOR (complete)
 
 **Endpoint:** `POST /api/auth/register`
 
@@ -92,13 +92,29 @@ We follow the **Red → Green → Refactor** cycle. Each feature is built in thr
 | Password too short (< 6 chars)         | 400             | Validation error for password                    |
 | Duplicate email                        | 409             | Conflict error when email already exists         |
 
-**Implementation files:**
+**Architecture (after refactor):**
 
-- `backend/src/models/User.js` — Mongoose schema with bcrypt password hashing
-- `backend/src/controllers/authController.js` — Register handler with validation
-- `backend/src/routes/authRoutes.js` — Auth route definitions
+| Layer | File | Responsibility |
+| ----- | ---- | -------------- |
+| Route | `routes/authRoutes.js` | HTTP routing + async wrapper |
+| Controller | `controllers/authController.js` | Request/response orchestration |
+| Service | `services/authService.js` | User lookup and creation |
+| Validator | `validators/registerValidator.js` | Input validation rules |
+| Model | `models/User.js` | Schema + password hashing |
+| Middleware | `middleware/asyncHandler.js` | Async error propagation |
+| Middleware | `middleware/errorHandler.js` | Centralized error responses |
+| Utils | `utils/formatUser.js` | Public user response shape |
+| Utils | `utils/constants.js` | Shared validation constants |
 
-**Status:** All 8 registration tests passing — awaiting refactor phase.
+**Refactor improvements:**
+
+- Separated validation logic from controller (Single Responsibility)
+- Extracted database operations into auth service layer
+- Reusable `formatUserResponse` for consistent API output
+- Centralized error handling via middleware
+- Shared constants for email regex and password rules
+
+**Status:** All 8 registration tests passing after refactor.
 
 ---
 
