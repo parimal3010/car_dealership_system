@@ -1,0 +1,16 @@
+{
+  "name": "car-dealership-system",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Car Dealership Inventory System - Full Stack TDD Kata",
+  "scripts": {
+    "install:all": "npm install --prefix backend && npm install --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "test:backend": "npm test --prefix backend",
+    "test:frontend": "npm test --prefix frontend",
+    "test": "npm run test:backend && npm run test:frontend",
+    "db:up": "docker compose up -d",
+    "db:down": "docker compose down"
+  }
+}
