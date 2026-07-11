@@ -452,19 +452,19 @@ Authorization: Bearer <jwt-token>
 
 **Test Categories:**
 
-| Category          | Test Count | Description                                                  |
-| ----------------- | ---------- | ------------------------------------------------------------ |
-| Search by make    | 2          | Case-insensitive, no results                                 |
-| Search by model   | 2          | Case-insensitive, no results                                 |
-| Search by fuel    | 2          | Gasoline, Electric, etc.                                     |
-| Price range       | 5          | Min/Max/Both, negative handling, no results                  |
-| Year filter       | 2          | Exact match, no results                                      |
-| Combined filters  | 4          | Make+Fuel, Price+Fuel, Year+Make+Price, no matches           |
-| Pagination        | 2          | Limit/skip with search results                               |
-| Authorization     | 3          | No token, invalid token, admin+user access                   |
-| Response format   | 2          | Field validation, no sensitive data                          |
-| Empty results     | 1          | No matches message and formatting                            |
-| Sorting           | 1          | Newest first by createdAt                                    |
+| Category         | Test Count | Description                                        |
+| ---------------- | ---------- | -------------------------------------------------- |
+| Search by make   | 2          | Case-insensitive, no results                       |
+| Search by model  | 2          | Case-insensitive, no results                       |
+| Search by fuel   | 2          | Gasoline, Electric, etc.                           |
+| Price range      | 5          | Min/Max/Both, negative handling, no results        |
+| Year filter      | 2          | Exact match, no results                            |
+| Combined filters | 4          | Make+Fuel, Price+Fuel, Year+Make+Price, no matches |
+| Pagination       | 2          | Limit/skip with search results                     |
+| Authorization    | 3          | No token, invalid token, admin+user access         |
+| Response format  | 2          | Field validation, no sensitive data                |
+| Empty results    | 1          | No matches message and formatting                  |
+| Sorting          | 1          | Newest first by createdAt                          |
 
 **Status:** ⏳ Awaiting implementation (GREEN phase). All tests currently failing (404 endpoint not found).
 

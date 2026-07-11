@@ -1,10 +1,16 @@
-const Vehicle = require("../models/Vehicle");
 const { formatVehicleResponse } = require("../utils/formatVehicle");
+
 const {
   validateAddVehicleInput,
   validatePaginationParams,
+  validateSearchParams,
 } = require("../validators/vehicleValidator");
-const { addVehicle, getAllVehicles } = require("../services/vehicleService");
+
+const {
+  addVehicle,
+  getAllVehicles,
+  searchVehicles,
+} = require("../services/vehicleService");
 
 const createVehicle = async (req, res) => {
   const { make, model, year, price, mileage, color, fuelType, transmission } =
@@ -26,7 +32,7 @@ const createVehicle = async (req, res) => {
     return res.status(400).json({ message: validationError });
   }
 
-  // Create vehicle using service
+  // Create vehicle
   const vehicle = await addVehicle({
     make,
     model,
@@ -45,24 +51,40 @@ const createVehicle = async (req, res) => {
 };
 
 const getVehicles = async (req, res) => {
-  // Validate and parse pagination parameters
+  // Validate pagination parameters
   const { limit, skip } = validatePaginationParams(req.query);
 
-  // Fetch vehicles using service
+  // Fetch vehicles
   const { vehicles, totalCount } = await getAllVehicles(limit, skip);
-
-  // Format vehicles for response
-  const formattedVehicles = vehicles.map(formatVehicleResponse);
 
   return res.status(200).json({
     message: "Vehicles retrieved successfully",
-    vehicles: formattedVehicles,
-    count: formattedVehicles.length,
+    vehicles: vehicles.map(formatVehicleResponse),
+    count: vehicles.length,
     totalCount,
+  });
+};
+
+const searchVehicle = async (req, res) => {
+  // Validate search parameters
+  const { filter, error } = validateSearchParams(req.query);
+
+  if (error) {
+    return res.status(400).json({ message: error });
+  }
+
+  // Search vehicles
+  const vehicles = await searchVehicles(filter);
+
+  return res.status(200).json({
+    message: "Vehicles retrieved successfully",
+    vehicles: vehicles.map(formatVehicleResponse),
+    count: vehicles.length,
   });
 };
 
 module.exports = {
   createVehicle,
   getVehicles,
+  searchVehicle,
 };

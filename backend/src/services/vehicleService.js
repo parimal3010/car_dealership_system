@@ -18,8 +18,13 @@ async function getAllVehicles(limit, skip) {
     totalCount,
   };
 }
+// const Vehicle = require("../models/Vehicle");
 
+const searchVehicles = async (filter) => {
+  return Vehicle.find(filter).sort({ createdAt: -1 });
+};
 module.exports = {
   addVehicle,
   getAllVehicles,
+   searchVehicles,
 };

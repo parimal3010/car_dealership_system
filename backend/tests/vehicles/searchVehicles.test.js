@@ -104,7 +104,7 @@ describe("GET /api/vehicles/search", () => {
       expect(response.status).toBe(200);
       expect(response.body.vehicles).toHaveLength(2);
       expect(response.body.vehicles.every((v) => v.make === "Toyota")).toBe(
-        true
+        true,
       );
       expect(response.body.count).toBe(2);
     });
@@ -162,7 +162,7 @@ describe("GET /api/vehicles/search", () => {
       expect(response.status).toBe(200);
       expect(response.body.vehicles).toHaveLength(3);
       expect(
-        response.body.vehicles.every((v) => v.fuelType === "Gasoline")
+        response.body.vehicles.every((v) => v.fuelType === "Gasoline"),
       ).toBe(true);
     });
 
@@ -193,8 +193,8 @@ describe("GET /api/vehicles/search", () => {
       expect(response.body.vehicles).toHaveLength(3);
       expect(
         response.body.vehicles.every(
-          (v) => v.price >= 20000 && v.price <= 30000
-        )
+          (v) => v.price >= 20000 && v.price <= 30000,
+        ),
       ).toBe(true);
     });
 
@@ -295,7 +295,9 @@ describe("GET /api/vehicles/search", () => {
       const token = regularUserToken;
 
       const response = await request(app)
-        .get("/api/vehicles/search?minPrice=20000&maxPrice=30000&fuelType=gasoline")
+        .get(
+          "/api/vehicles/search?minPrice=20000&maxPrice=30000&fuelType=gasoline",
+        )
         .set("Authorization", `Bearer ${token}`);
 
       expect(response.status).toBe(200);
@@ -309,7 +311,7 @@ describe("GET /api/vehicles/search", () => {
 
       const response = await request(app)
         .get(
-          "/api/vehicles/search?year=2023&make=toyota&minPrice=20000&maxPrice=30000"
+          "/api/vehicles/search?year=2023&make=toyota&minPrice=20000&maxPrice=30000",
         )
         .set("Authorization", `Bearer ${token}`);
 

@@ -2,6 +2,7 @@ const express = require("express");
 const {
   createVehicle,
   getVehicles,
+  searchVehicle,
 } = require("../controllers/vehicleController");
 const asyncHandler = require("../middleware/asyncHandler");
 const {
@@ -16,10 +17,21 @@ router.post(
   "/",
   authenticateToken,
   authorizeAdmin,
-  asyncHandler(createVehicle),
+  asyncHandler(createVehicle)
+);
+
+// GET /api/vehicles/search - Search vehicles
+router.get(
+  "/search",
+  authenticateToken,
+  asyncHandler(searchVehicle)
 );
 
 // GET /api/vehicles - Get all vehicles (authenticated users)
-router.get("/", authenticateToken, asyncHandler(getVehicles));
+router.get(
+  "/",
+  authenticateToken,
+  asyncHandler(getVehicles)
+);
 
 module.exports = router;

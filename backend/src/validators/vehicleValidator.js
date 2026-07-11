@@ -57,7 +57,70 @@ function validatePaginationParams(query) {
   };
 }
 
+const validateSearchParams = (query) => {
+  const filter = {};
+
+  if (query.make) {
+    filter.make = {
+      $regex: query.make,
+      $options: "i",
+    };
+  }
+
+  if (query.model) {
+    filter.model = {
+      $regex: query.model,
+      $options: "i",
+    };
+  }
+
+  if (query.category) {
+    filter.category = query.category;
+  }
+
+  if (query.minPrice || query.maxPrice) {
+    filter.price = {};
+
+    if (query.minPrice !== undefined) {
+      const min = Number(query.minPrice);
+
+      if (Number.isNaN(min)) {
+        return { error: "minPrice must be a valid number" };
+      }
+
+      filter.price.$gte = min;
+    }
+
+    if (query.maxPrice !== undefined) {
+      const max = Number(query.maxPrice);
+
+      if (Number.isNaN(max)) {
+        return { error: "maxPrice must be a valid number" };
+      }
+
+      filter.price.$lte = max;
+    }
+
+    if (
+      filter.price.$gte !== undefined &&
+      filter.price.$lte !== undefined &&
+      filter.price.$gte > filter.price.$lte
+    ) {
+      return {
+        error: "minPrice cannot be greater than maxPrice",
+      };
+    }
+  }
+
+  return { filter };
+};
+
 module.exports = {
   validateAddVehicleInput,
   validatePaginationParams,
+  validateSearchParams,
 };
+// module.exports = {
+//   validateAddVehicleInput,
+//   validatePaginationParams,
+// };
