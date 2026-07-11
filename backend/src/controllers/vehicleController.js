@@ -179,25 +179,12 @@ const deleteVehicle = async (req, res) => {
 };
 
 
-
 const purchaseVehicle = async (req, res) => {
   try {
-    const { id } = req.params;
-    const { quantity } = req.body;
-
-    if (!quantity || quantity <= 0) {
-      return res.status(400).json({
-        message: "Invalid purchase quantity",
-      });
-    }
-
-    const vehicle = await purchaseVehicleById(id, quantity);
-
-    if (!vehicle) {
-      return res.status(404).json({
-        message: "Vehicle not found",
-      });
-    }
+    const vehicle = await purchaseVehicleById(
+      req.params.id,
+      req.body.quantity
+    );
 
     return res.status(200).json({
       message: "Vehicle purchased successfully",
@@ -205,20 +192,18 @@ const purchaseVehicle = async (req, res) => {
     });
 
   } catch (error) {
-    if (error.message === "Insufficient quantity") {
-      return res.status(400).json({
-        message: "Insufficient vehicle quantity",
-      });
-    }
+    const errorResponses = {
+      "Invalid purchase quantity": 400,
+      "Insufficient quantity": 400,
+      "Vehicle not found": 404,
+    };
 
-    if (error.name === "CastError") {
-      return res.status(400).json({
-        message: "Invalid vehicle id",
-      });
-    }
-
-    return res.status(500).json({
-      message: "Failed to purchase vehicle",
+    return res.status(errorResponses[error.message] || 500).json({
+      message: errorResponses[error.message]
+        ? error.message === "Insufficient quantity"
+          ? "Insufficient vehicle quantity"
+          : error.message
+        : "Failed to purchase vehicle",
     });
   }
 };
