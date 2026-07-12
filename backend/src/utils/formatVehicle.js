@@ -10,6 +10,7 @@ const formatVehicleResponse = (vehicle) => {
     fuelType: vehicle.fuelType,
     transmission: vehicle.transmission,
     createdAt: vehicle.createdAt,
+    quantity: vehicle.quantity,
   };
 };
 

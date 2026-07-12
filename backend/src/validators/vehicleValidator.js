@@ -56,7 +56,6 @@ function validatePaginationParams(query) {
     skip: Math.max(0, skip),
   };
 }
-
 const validateSearchParams = (query) => {
   const filter = {};
 
@@ -74,42 +73,38 @@ const validateSearchParams = (query) => {
     };
   }
 
-  if (query.category) {
-    filter.category = query.category;
+  if (query.year) {
+    const year = Number(query.year);
+
+    if (Number.isNaN(year)) {
+      return { error: "Year must be a valid number" };
+    }
+
+    filter.year = year;
   }
 
-  if (query.minPrice || query.maxPrice) {
-    filter.price = {};
+  if (query.price) {
+    const price = Number(query.price);
 
-    if (query.minPrice !== undefined) {
-      const min = Number(query.minPrice);
-
-      if (Number.isNaN(min)) {
-        return { error: "minPrice must be a valid number" };
-      }
-
-      filter.price.$gte = min;
+    if (Number.isNaN(price)) {
+      return { error: "Price must be a valid number" };
     }
 
-    if (query.maxPrice !== undefined) {
-      const max = Number(query.maxPrice);
+    filter.price = price;
+  }
 
-      if (Number.isNaN(max)) {
-        return { error: "maxPrice must be a valid number" };
-      }
+  if (query.fuelType) {
+    filter.fuelType = {
+      $regex: query.fuelType,
+      $options: "i",
+    };
+  }
 
-      filter.price.$lte = max;
-    }
-
-    if (
-      filter.price.$gte !== undefined &&
-      filter.price.$lte !== undefined &&
-      filter.price.$gte > filter.price.$lte
-    ) {
-      return {
-        error: "minPrice cannot be greater than maxPrice",
-      };
-    }
+  if (query.transmission) {
+    filter.transmission = {
+      $regex: query.transmission,
+      $options: "i",
+    };
   }
 
   return { filter };
