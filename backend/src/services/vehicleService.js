@@ -47,10 +47,28 @@ const purchaseVehicleById = async (id, quantity) => {
 
   return vehicle;
 };
+
+
+const restockVehicleById = async (id, quantity) => {
+  if (!quantity || quantity <= 0) {
+    throw new Error("Invalid restock quantity");
+  }
+
+  const vehicle = await Vehicle.findById(id);
+
+  if (!vehicle) {
+    throw new Error("Vehicle not found");
+  }
+
+  vehicle.quantity += quantity;
+
+  return vehicle.save();
+};
 module.exports = {
   addVehicle,
   getAllVehicles,
    searchVehicles,
    deleteVehicleById,
    purchaseVehicleById,
+   restockVehicleById,
 };

@@ -12,11 +12,11 @@
     "test:coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "axios": "^1.7.9",
+    "axios": "^1.18.1",
     "car-dealership-system": "file:..",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "react-router-dom": "^7.1.1"
+    "react-router-dom": "^7.18.1"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.6.3",

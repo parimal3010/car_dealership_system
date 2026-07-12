@@ -8,6 +8,7 @@ const connectDatabase = async (uri) => {
   }
 
   await mongoose.connect(connectionUri);
+  console.log("MongoDB Connected");
 };
 
 const disconnectDatabase = async () => {

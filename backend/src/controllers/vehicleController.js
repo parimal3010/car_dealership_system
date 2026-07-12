@@ -12,6 +12,8 @@ const {
   addVehicle,
   getAllVehicles,
   searchVehicles,
+  deleteVehicleById ,
+  purchaseVehicleById ,
 } = require("../services/vehicleService");
 
 const createVehicle = async (req, res) => {
@@ -207,6 +209,34 @@ const purchaseVehicle = async (req, res) => {
     });
   }
 };
+
+
+
+const restockVehicle = async (req, res) => {
+  try {
+    const vehicle = await restockVehicleById(
+      req.params.id,
+      req.body.quantity
+    );
+
+    return res.status(200).json({
+      message: "Vehicle restocked successfully",
+      quantity: vehicle.quantity,
+    });
+
+  } catch (error) {
+    const statusCodes = {
+      "Invalid restock quantity": 400,
+      "Vehicle not found": 404,
+    };
+
+    return res.status(statusCodes[error.message] || 500).json({
+      message: error.message || "Failed to restock vehicle",
+    });
+  }
+};
+
+
 module.exports = {
   createVehicle,
   getVehicles,
@@ -215,4 +245,5 @@ module.exports = {
      updateVehicle, 
      deleteVehicle,
      purchaseVehicle,   
+     restockVehicle,
 };

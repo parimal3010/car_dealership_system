@@ -1,0 +1,145 @@
+/* Page */
+
+.admin-dashboard {
+  max-width: 1200px;
+  margin: 30px auto;
+  padding: 20px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.admin-dashboard h1 {
+  text-align: center;
+  color: #1f2937;
+  margin-bottom: 25px;
+}
+
+.admin-dashboard h2 {
+  margin: 30px 0 15px;
+  color: #374151;
+}
+
+/* Form */
+
+.vehicle-form {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 15px;
+
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 12px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+.vehicle-form input {
+  padding: 12px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.vehicle-form input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+}
+
+.vehicle-form button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 15px;
+  transition: 0.3s;
+}
+
+.vehicle-form button[type="submit"] {
+  background: #2563eb;
+  color: white;
+}
+
+.vehicle-form button[type="submit"]:hover {
+  background: #1d4ed8;
+}
+
+.vehicle-form button[type="button"] {
+  background: #6b7280;
+  color: white;
+}
+
+.vehicle-form button[type="button"]:hover {
+  background: #4b5563;
+}
+
+/* Table */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+}
+
+thead {
+  background: #1f2937;
+  color: white;
+}
+
+th,
+td {
+  padding: 14px;
+  text-align: center;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+tbody tr:hover {
+  background: #f3f4f6;
+}
+
+/* Action Buttons */
+
+td button {
+  margin: 4px;
+  padding: 8px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+td button:first-child {
+  background: #f59e0b;
+  color: white;
+}
+
+td button:first-child:hover {
+  background: #d97706;
+}
+
+td button:last-child {
+  background: #dc2626;
+  color: white;
+}
+
+td button:last-child:hover {
+  background: #b91c1c;
+}
+
+/* Responsive */
+
+@media (max-width: 900px) {
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+
+  .vehicle-form {
+    grid-template-columns: 1fr;
+  }
+}

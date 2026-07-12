@@ -1,20 +1,47 @@
-.app {
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #f4f4f4;
 }
 
-.app-header {
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 30px;
+}
+
+.form-container {
+  background: white;
+  width: 400px;
+  margin: 40px auto;
+  padding: 30px;
+  border-radius: 8px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
   text-align: center;
-  padding: 2rem;
 }
 
-.app-header h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
+.form-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
-.app-header p {
-  color: #64748b;
+.form-container input {
+  padding: 12px;
+  font-size: 16px;
+}
+
+.form-container button {
+  padding: 12px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  cursor: pointer;
+}
+
+.form-container button:hover {
+  background: #1d4ed8;
 }
