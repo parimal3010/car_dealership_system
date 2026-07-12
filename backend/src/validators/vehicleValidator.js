@@ -3,6 +3,7 @@ function validateAddVehicleInput({
   model,
   year,
   price,
+  category,
   mileage,
   color,
   fuelType,
@@ -14,7 +15,9 @@ function validateAddVehicleInput({
   if (!make || typeof make !== "string" || make.trim() === "") {
     return "Make is required and must be a string";
   }
-
+if (!category) {
+  return "Category is required";
+}
   if (!model || typeof model !== "string" || model.trim() === "") {
     return "Model is required and must be a string";
   }

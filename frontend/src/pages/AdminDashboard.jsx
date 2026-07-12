@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import "./AdminDashboard.css";
+import Navbar from "../components/Navbar";
 
 const API_URL = "http://localhost:5000/api/vehicles";
 
@@ -12,6 +13,7 @@ function AdminDashboard() {
     model: "",
     year: "",
     price: "",
+    category:"",
     mileage: "",
     color: "",
     fuelType: "",
@@ -156,6 +158,9 @@ const clearSearch = () => {
       model: vehicle.model,
       year: vehicle.year,
       price: vehicle.price,
+    //   category: vehicle.category,
+
+      category: vehicle.category,
       mileage: vehicle.mileage,
       color: vehicle.color,
       fuelType: vehicle.fuelType,
@@ -217,7 +222,11 @@ const handleRestock = async (id) => {
 
 };
   return (
+    <div>
+        <Navbar />
+  
     <div className="admin-dashboard">
+           {/* <Navbar /> */}
       <h1>Admin Dashboard</h1>
 
       <div className="search-box">
@@ -240,7 +249,7 @@ const handleRestock = async (id) => {
 
   <input
     name="category"
-    placeholder="Fuel Type"
+    placeholder="Category"
     value={search.category}
     onChange={handleSearchChange}
   />
@@ -321,6 +330,38 @@ const handleRestock = async (id) => {
             onChange={handleChange}
             required
           />
+          <select
+            name="category"
+            value={formData.category}
+            onChange={handleChange}
+            required
+            >
+
+            <option value="">
+            Select Category
+            </option>
+
+            <option value="SUV">
+            SUV
+            </option>
+
+            <option value="Sedan">
+            Sedan
+            </option>
+
+            <option value="Hatchback">
+            Hatchback
+            </option>
+
+            <option value="MUV">
+            MUV
+            </option>
+
+            <option value="Electric">
+            Electric
+            </option>
+
+            </select>
 
           <input
             type="number"
@@ -382,6 +423,8 @@ const handleRestock = async (id) => {
             <th>Model</th>
             <th>Year</th>
             <th>Price</th>
+            <th>Category</th>
+
             <th>Mileage</th>
             <th>Color</th>
             <th>Fuel</th>
@@ -404,6 +447,8 @@ const handleRestock = async (id) => {
                 <td>{vehicle.model}</td>
                 <td>{vehicle.year}</td>
                 <td>₹{vehicle.price}</td>
+                <td>{vehicle.category}</td>
+
                 <td>{vehicle.mileage}</td>
                 <td>{vehicle.color}</td>
                 <td>{vehicle.fuelType}</td>
@@ -434,6 +479,7 @@ const handleRestock = async (id) => {
         </tbody>
       </table>
     </div>
+      </div>
   );
 }
 

@@ -1,5 +1,7 @@
 import { useState } from "react";
   import axios from "axios";
+import HomeNavbar from "../components/HomeNavbar";
+
 function Register() {
   const [formData, setFormData] = useState({
     name: "",
@@ -34,6 +36,8 @@ const handleSubmit = async (e) => {
 };
 
   return (
+      <div>
+         <HomeNavbar />
     <div className="form-container">
       <h2>Register</h2>
 
@@ -67,6 +71,8 @@ const handleSubmit = async (e) => {
         </button>
       </form>
     </div>
+    </div>
+
   );
 }
 

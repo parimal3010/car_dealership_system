@@ -21,11 +21,25 @@ const vehicleSchema = new mongoose.Schema(
       required: true,
       min: 0,
     },
+    category: {
+      type: String,
+      required: true,
+      enum: [
+        "SUV",
+        "Sedan",
+        "Hatchback",
+        "MUV",
+        "Coupe",
+        "Convertible",
+        "Electric",
+      ],
+    },
     mileage: {
       type: Number,
       default: 0,
       min: 0,
     },
+    
     color: {
       type: String,
       trim: true,
@@ -43,6 +57,7 @@ const vehicleSchema = new mongoose.Schema(
     default: 0,
     min: 0,
 },
+
   },
   { timestamps: true },
 );

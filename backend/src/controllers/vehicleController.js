@@ -22,6 +22,7 @@ const createVehicle = async (req, res) => {
     model,
     year,
     price,
+    category,
     mileage,
     color,
     fuelType,
@@ -34,6 +35,7 @@ const createVehicle = async (req, res) => {
     model,
     year,
     price,
+    category,
     mileage,
     color,
     fuelType,
@@ -52,6 +54,7 @@ const createVehicle = async (req, res) => {
     model,
     year,
     price,
+    category,
     mileage: mileage || 0,
     color,
     fuelType,
@@ -114,7 +117,7 @@ const searchVehicle = async (req, res) => {
 
 
     if (category) {
-      filter.fuelType = {
+      filter.category = {
         $regex: category,
         $options: "i",
       };

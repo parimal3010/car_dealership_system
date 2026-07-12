@@ -5,6 +5,8 @@ const formatVehicleResponse = (vehicle) => {
     model: vehicle.model,
     year: vehicle.year,
     price: vehicle.price,
+    category: vehicle.category,
+
     mileage: vehicle.mileage,
     color: vehicle.color,
     fuelType: vehicle.fuelType,

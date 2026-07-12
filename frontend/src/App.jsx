@@ -20,11 +20,12 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import AdminDashboard from "./pages/AdminDashboard";
+import UserDashboard from "./pages/UserDashboard";
 
 function App() {
   return (
     <>
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="container">
         <Routes>
@@ -32,6 +33,10 @@ function App() {
           <Route path="/admin" element={<AdminDashboard />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
+          <Route 
+    path="/user-dashboard" 
+    element={<UserDashboard />} 
+  />
         </Routes>
       </div>
     </>

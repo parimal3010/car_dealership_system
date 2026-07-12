@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import HomeNavbar from "../components/HomeNavbar";
+import Navbar from "../components/Navbar";
 
 function Login() {
   const navigate = useNavigate();
@@ -44,7 +46,7 @@ function Login() {
       if (user.role === "admin") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/user-dashboard");
       }
     } catch (error) {
       console.error(error);
@@ -59,7 +61,11 @@ function Login() {
   };
 
   return (
+    //  
+    <div>
+         <HomeNavbar />
     <div className="form-container">
+
       <h2>Login</h2>
 
       <form onSubmit={handleSubmit}>
@@ -85,6 +91,7 @@ function Login() {
           {loading ? "Logging in..." : "Login"}
         </button>
       </form>
+    </div>
     </div>
   );
 }

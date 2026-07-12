@@ -1,20 +1,47 @@
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Navbar.css";
 
 function Navbar() {
+
+  const navigate = useNavigate();
+
+
+  const handleLogout = () => {
+
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+
+    navigate("/login");
+
+  };
+
+
   return (
+
     <nav className="navbar">
-      <div className="logo">
-        Car Dealership
-      </div>
+
+      <h2 className="logo">
+        Admin Panel
+      </h2>
+
 
       <div className="nav-links">
-        <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+
+        <button
+          className="logout-btn"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
+
       </div>
+
+
     </nav>
+
   );
+
 }
+
 
 export default Navbar;
