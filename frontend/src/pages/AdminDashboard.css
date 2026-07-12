@@ -1,21 +1,32 @@
 /* Page */
 
 .admin-dashboard {
-  max-width: 1200px;
+
+
+    /* background-color: white; */
+  background-color: rgba(255, 255, 255, 0.4);
+  padding: 20px;
+  margin: 30px auto;
+  text-align: center;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+
+  /* max-width: 1200px;
   margin: 30px auto;
   padding: 20px;
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: Arial, Helvetica, sans-serif; */
 }
 
 .admin-dashboard h1 {
+    
   text-align: center;
-  color: #1f2937;
-  margin-bottom: 25px;
+  color: #000000;
+  /* margin-bottom: 25px;    */
 }
 
 .admin-dashboard h2 {
   margin: 30px 0 15px;
-  color: #374151;
+  color: #000000;
 }
 
 /* Form */
@@ -105,7 +116,7 @@ tbody tr:hover {
 
 td button {
   margin: 4px;
-  padding: 8px 14px;
+  padding: 8px 10px;
   border: none;
   border-radius: 6px;
   cursor: pointer;
@@ -151,21 +162,26 @@ td button:last-child:hover {
 .search-box {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 12px;
-  margin: 25px 0;
+  gap: 5px;
+  padding: 10px;
+  /* margin: 25px 0; */
 }
 
 .search-box input {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 8px;
+    margin-top: 20px;
+
 }
 
 .search-box button {
+    margin-top: 20px;
   padding: 10px;
+  height: 40px;
   border: none;
   border-radius: 8px;
-  background: #2563eb;
+  background: #2577eb;
   color: white;
   cursor: pointer;
 }
@@ -179,8 +195,8 @@ td button:last-child:hover {
 
 
 .add-btn {
-  margin: 20px 0;
-  background: #2563eb;
+  margin: 7px 0;
+  background: #d86158;
   color: white;
   border: none;
   padding: 12px 24px;
@@ -190,7 +206,7 @@ td button:last-child:hover {
 }
 
 .add-btn:hover {
-  background: #1d4ed8;
+  background: #f87432;
 }
 
 .vehicle-form {

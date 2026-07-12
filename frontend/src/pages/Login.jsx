@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import HomeNavbar from "../components/HomeNavbar";
 import Navbar from "../components/Navbar";
+import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
@@ -60,38 +61,58 @@ function Login() {
     }
   };
 
-  return (
+
     //  
+    return (
     <div>
-         <HomeNavbar />
-    <div className="form-container">
+      <HomeNavbar />
 
-      <h2>Login</h2>
+      <div className="login-page">
+        <div className="login-card">
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="email"
-          name="email"
-          placeholder="Enter Email"
-          value={formData.email}
-          onChange={handleChange}
-          required
-        />
+          <div className="login-header">
+            <h1>Welcome Back</h1>
+            <p>Sign in to access your dealership account</p>
+          </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Enter Password"
-          value={formData.password}
-          onChange={handleChange}
-          required
-        />
+          <form onSubmit={handleSubmit} className="login-form">
 
-        <button type="submit" disabled={loading}>
-          {loading ? "Logging in..." : "Login"}
-        </button>
-      </form>
-    </div>
+            <div className="input-group">
+              <label>Email Address</label>
+              <input
+                type="email"
+                name="email"
+                placeholder="Enter your email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="input-group">
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <button
+              type="submit"
+              className="login-btn"
+              disabled={loading}
+            >
+              {loading ? "Logging in..." : "Login"}
+            </button>
+
+          </form>
+
+        </div>
+      </div>
     </div>
   );
 }

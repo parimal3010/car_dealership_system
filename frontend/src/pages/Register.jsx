@@ -36,42 +36,61 @@ const handleSubmit = async (e) => {
 };
 
   return (
-      <div>
-         <HomeNavbar />
-    <div className="form-container">
-      <h2>Register</h2>
+     <div>
+  <HomeNavbar />
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="name"
-          placeholder="Name"
-          onChange={handleChange}
-          required
-        />
+  <div className="login-page">
+    <div className="login-card">
 
-        <input
-          type="email"
-          name="email"
-          placeholder="Email"
-          onChange={handleChange}
-          required
-        />
+      <div className="login-header">
+        <h1>Create Account</h1>
+        <p>Register to access the Car Dealership Inventory System</p>
+      </div>
 
-        <input
-          type="password"
-          name="password"
-          placeholder="Password"
-          onChange={handleChange}
-          required
-        />
+      <form onSubmit={handleSubmit} className="login-form">
 
-        <button type="submit">
+        <div className="input-group">
+          <label>Full Name</label>
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Email Address</label>
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <div className="input-group">
+          <label>Password</label>
+          <input
+            type="password"
+            name="password"
+            placeholder="Create a password"
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <button type="submit" className="login-btn">
           Register
         </button>
+
       </form>
+
     </div>
-    </div>
+  </div>
+</div>
 
   );
 }

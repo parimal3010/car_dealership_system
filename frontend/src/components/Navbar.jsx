@@ -21,7 +21,7 @@ function Navbar() {
     <nav className="navbar">
 
       <h2 className="logo">
-        Admin Panel
+        Vehicle Dealership
       </h2>
 
 

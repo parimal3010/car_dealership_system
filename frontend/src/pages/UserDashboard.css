@@ -4,11 +4,11 @@
 
   padding: 30px;
 
-  background: linear-gradient(
+  /* background: linear-gradient(
     135deg,
     #eef2ff,
     #f8fafc
-  );
+  ); */
 
 }
 
@@ -16,9 +16,14 @@
 
 .dashboard-header {
 
+   /* width: 150px; */
+  /* background-color: white; */
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 20px;
+  margin: 30px auto;
   text-align: center;
-
-  margin-bottom: 30px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 
 }
 
@@ -30,7 +35,7 @@
 
   margin-bottom: 8px;
 
-  color: #1e293b;
+  color: #0755dc;
 
 }
 
@@ -38,7 +43,7 @@
 
 .dashboard-header p {
 
-  color: #64748b;
+  color: #1d50d0;
 
   font-size: 16px;
 

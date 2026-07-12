@@ -272,7 +272,7 @@ const handleRestock = async (id) => {
     onChange={handleSearchChange}
   />
 
-
+{/* <br> */}
   <button onClick={searchVehicles}>
     Search
   </button>
