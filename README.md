@@ -10,7 +10,6 @@ A full-stack car dealership inventory application built with **Test-Driven Devel
 | Frontend | React, Vite                                       |
 | Database | MongoDB (Docker for dev, Memory Server for tests) |
 | Auth     | JWT (jsonwebtoken + bcryptjs)                     |
-| Testing  | Jest + Supertest (backend), Vitest (frontend)     |
 
 ## Project Structure
 
