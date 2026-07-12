@@ -496,3 +496,119 @@ feat: add registration tests (TDD red phase)
 
 Co-authored-by: Cursor AI <AI@users.noreply.github.com>
 ```
+
+## How I Used AI
+
+Throughout the development of this project, I used ChatGPT as a programming assistant to improve productivity and assist with implementation.
+
+### Backend Development
+
+I used ChatGPT to:
+
+- Generate Express controller and service layer boilerplate.
+- Implement vehicle CRUD operations.
+- Design search functionality using MongoDB query filters.
+- Implement purchase and restock APIs.
+- Assist in adding the vehicle category field across the application.
+- Debug backend errors and improve validation logic.
+
+### Frontend Development
+
+I used ChatGPT to:
+
+- Design and improve the Admin Dashboard.
+- Build the User Dashboard with responsive vehicle cards.
+- Implement vehicle search functionality.
+- Integrate purchase and restock features.
+- Improve Login, Register, and Home page UI.
+- Create responsive layouts using CSS.
+- Improve navigation based on user roles.
+- Help troubleshoot React routing and component issues.
+
+### General Development
+
+I also used ChatGPT to:
+
+- Explain programming concepts.
+- Generate sample vehicle data for testing.
+- Create Git commit messages following project requirements.
+- Review code structure and suggest improvements.
+- Assist in writing this README documentation.
+
+---
+
+## Reflection
+
+Using ChatGPT significantly improved my development workflow by reducing the time required to implement repetitive code, troubleshoot errors, and refine both backend and frontend components.
+
+Rather than replacing my understanding of the project, ChatGPT served as a development assistant that helped me explore implementation ideas, resolve issues more efficiently, and improve the overall quality and consistency of the application.
+
+I reviewed, modified, and tested all AI-generated code before integrating it into the final project to ensure it met the project requirements and functioned correctly.
+
+---
+
+## Future Improvements
+
+- Vehicle image upload
+- Advanced filtering and sorting
+- Pagination for search results
+- Wishlist functionality
+- Order history
+- User profile management
+- Admin analytics dashboard
+- Email notifications after purchase
+
+## Screenshots
+
+### Home Page
+
+![Home Page](screenshots/home.png)
+
+---
+
+### Login Page
+
+![Login Page](screenshots/login.png)
+
+---
+
+### Register Page
+
+![Register Page](screenshots/register.png)
+
+---
+
+### Admin Dashboard
+
+![Admin Dashboard](screenshots/admin-dashboard.png)
+
+---
+
+### User Dashboard
+
+![User Dashboard](screenshots/user-dashboard.png)
+
+---
+
+### Vehicle Search
+
+![Vehicle Search](screenshots/search.png)
+
+---
+
+### Purchase Vehicle
+
+![Purchase Vehicle](screenshots/purchase.png)
+
+---
+
+### Add Vehicle
+
+![Add Vehicle](screenshots/add-vehicle.png)
+
+---
+
+### Restock Vehicle
+
+![Restock Vehicle](screenshots/restock.png)
+
